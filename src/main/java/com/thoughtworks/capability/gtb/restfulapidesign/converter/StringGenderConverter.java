@@ -1,12 +1,12 @@
 package com.thoughtworks.capability.gtb.restfulapidesign.converter;
 
-import com.thoughtworks.capability.gtb.restfulapidesign.dto.StudentDto;
+import com.thoughtworks.capability.gtb.restfulapidesign.domain.Student;
 import org.springframework.core.convert.converter.Converter;
 
-public class StringGenderConverter implements Converter<String, StudentDto.Gender> {
+public class StringGenderConverter implements Converter<String, Student.Gender> {
 
     @Override
-    public StudentDto.Gender convert(String source) {
-        return StudentDto.Gender.valueOf(source.toUpperCase());
+    public Student.Gender convert(String source) {
+        return Student.Gender.valueOf(source.toUpperCase());
     }
 }

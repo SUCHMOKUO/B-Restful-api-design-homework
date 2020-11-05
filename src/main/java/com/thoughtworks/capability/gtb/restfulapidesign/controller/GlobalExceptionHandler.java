@@ -1,6 +1,6 @@
 package com.thoughtworks.capability.gtb.restfulapidesign.controller;
 
-import com.thoughtworks.capability.gtb.restfulapidesign.dto.ErrorResponse;
+import com.thoughtworks.capability.gtb.restfulapidesign.domain.ErrorResponse;
 import com.thoughtworks.capability.gtb.restfulapidesign.exception.ErrorResponseException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

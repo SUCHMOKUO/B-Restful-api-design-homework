@@ -1,6 +1,6 @@
 package com.thoughtworks.capability.gtb.restfulapidesign.service;
 
-import com.thoughtworks.capability.gtb.restfulapidesign.dto.StudentDto;
+import com.thoughtworks.capability.gtb.restfulapidesign.domain.Student;
 import com.thoughtworks.capability.gtb.restfulapidesign.exception.StudentNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -15,32 +15,32 @@ import java.util.stream.Collectors;
 @Service
 public class StudentService {
 
-    private final Map<Integer, StudentDto> students = new ConcurrentHashMap<>(16);
+    private final Map<Integer, Student> students = new ConcurrentHashMap<>(16);
     private final AtomicInteger nextId = new AtomicInteger(1);
 
-    public StudentDto createStudent(StudentDto studentDto) {
+    public Student createStudent(Student student) {
         Integer id = nextId.getAndIncrement();
-        studentDto.setId(id);
-        students.put(id, studentDto);
-        return studentDto;
+        student.setId(id);
+        students.put(id, student);
+        return student;
     }
 
     public void deleteStudent(Integer id) {
         students.remove(id);
     }
 
-    public List<StudentDto> getAllStudents(StudentDto.Gender gender) {
+    public List<Student> getAllStudents(Student.Gender gender) {
         if (Objects.nonNull(gender)) {
             return students.values()
                     .stream()
-                    .filter(studentDto -> studentDto.getGender().equals(gender))
+                    .filter(student -> student.getGender().equals(gender))
                     .collect(Collectors.toList());
         }
 
         return new ArrayList<>(students.values());
     }
 
-    private synchronized StudentDto checkAndGetStudent(Integer id) {
+    private synchronized Student checkAndGetStudent(Integer id) {
         if (!students.containsKey(id)) {
             throw new StudentNotFoundException();
         }
@@ -48,23 +48,23 @@ public class StudentService {
         return students.get(id);
     }
 
-    public StudentDto getStudent(Integer id) {
+    public Student getStudent(Integer id) {
         return checkAndGetStudent(id);
     }
 
-    public StudentDto updateStudent(Integer id, StudentDto studentDto) {
-        StudentDto studentToUpdate = checkAndGetStudent(id);
+    public Student updateStudent(Integer id, Student student) {
+        Student studentToUpdate = checkAndGetStudent(id);
 
-        if (Objects.nonNull(studentDto.getName())) {
-            studentToUpdate.setName(studentDto.getName());
+        if (Objects.nonNull(student.getName())) {
+            studentToUpdate.setName(student.getName());
         }
 
-        if (Objects.nonNull(studentDto.getGender())) {
-            studentToUpdate.setGender(studentDto.getGender());
+        if (Objects.nonNull(student.getGender())) {
+            studentToUpdate.setGender(student.getGender());
         }
 
-        if (Objects.nonNull(studentDto.getNote())) {
-            studentToUpdate.setNote(studentDto.getNote());
+        if (Objects.nonNull(student.getNote())) {
+            studentToUpdate.setNote(student.getNote());
         }
 
         return studentToUpdate;

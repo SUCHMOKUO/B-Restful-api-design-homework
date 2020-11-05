@@ -1,10 +1,9 @@
-package com.thoughtworks.capability.gtb.restfulapidesign.dto;
+package com.thoughtworks.capability.gtb.restfulapidesign.domain;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
@@ -14,7 +13,7 @@ import javax.validation.constraints.NotNull;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class StudentDto {
+public class Student {
 
     private Integer id;
 
