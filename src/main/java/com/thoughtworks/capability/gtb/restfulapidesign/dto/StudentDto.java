@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotEmpty;
@@ -25,9 +26,9 @@ public class StudentDto {
 
     private String note;
 
-    private enum Gender {
-        Male("male"),
-        Female("female");
+    public enum Gender {
+        MALE("male"),
+        FEMALE("female");
 
         @JsonValue
         private final String value;

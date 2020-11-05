@@ -3,9 +3,13 @@ package com.thoughtworks.capability.gtb.restfulapidesign.service;
 import com.thoughtworks.capability.gtb.restfulapidesign.dto.StudentDto;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 @Service
 public class StudentService {
@@ -22,5 +26,16 @@ public class StudentService {
 
     public void deleteStudent(Integer id) {
         students.remove(id);
+    }
+
+    public List<StudentDto> getAllStudents(StudentDto.Gender gender) {
+        if (Objects.nonNull(gender)) {
+            return students.values()
+                    .stream()
+                    .filter(studentDto -> studentDto.getGender().equals(gender))
+                    .collect(Collectors.toList());
+        }
+
+        return new ArrayList<>(students.values());
     }
 }
