@@ -1,17 +1,25 @@
 package com.thoughtworks.capability.gtb.restfulapidesign.service;
 
 import com.thoughtworks.capability.gtb.restfulapidesign.domain.Group;
+import com.thoughtworks.capability.gtb.restfulapidesign.domain.Student;
 import com.thoughtworks.capability.gtb.restfulapidesign.exception.GroupNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class GroupService {
 
     private final List<Group> groups = new ArrayList<>(6);
+    private final StudentService studentService;
+
+    public GroupService(StudentService studentService) {
+        this.studentService = studentService;
+    }
 
     @PostConstruct
     private void initGroups() {
@@ -37,5 +45,41 @@ public class GroupService {
         groupToUpdate.setName(group.getName());
 
         return groupToUpdate;
+    }
+
+    private List<List<Student>> createStudentLists() {
+        List<List<Student>> studentLists = new ArrayList<>(6);
+
+        for (int i = 0; i < 6; i++) {
+            studentLists.add(new ArrayList<>(16));
+        }
+
+        return studentLists;
+    }
+
+    public List<Group> getAllGroups() {
+        List<Student> students = studentService.getAllStudents(null);
+        int totalStudent = students.size();
+        int restStudent = totalStudent % 6;
+
+        Collections.shuffle(students);
+        List<List<Student>> studentLists = createStudentLists();
+
+        for (int groupIndex = 0; groupIndex < restStudent; groupIndex++) {
+            studentLists.get(groupIndex).add(students.remove(0));
+        }
+
+        int restStudentAmountEachGroup = (totalStudent - restStudent) / 6;
+
+        for (int groupIndex = 0; groupIndex < 6; groupIndex++) {
+            for (int i = 0; i < restStudentAmountEachGroup; i++) {
+                studentLists.get(groupIndex).add(students.remove(0));
+            }
+        }
+
+        return groups.stream()
+                .map(Group::copy)
+                .peek((group) -> group.setStudents(studentLists.get(group.getId() - 1)))
+                .collect(Collectors.toList());
     }
 }

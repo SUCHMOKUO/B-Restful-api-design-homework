@@ -24,4 +24,13 @@ public class Group {
 
     @JsonInclude(JsonInclude.Include.NON_EMPTY)
     private List<Student> students;
+
+    public static Group copy(Group group) {
+        return Group.builder()
+                .id(group.getId())
+                .name(group.getName())
+                .note(group.getNote())
+                .students(group.getStudents())
+                .build();
+    }
 }
