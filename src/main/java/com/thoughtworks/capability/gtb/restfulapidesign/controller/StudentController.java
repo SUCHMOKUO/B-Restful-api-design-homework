@@ -43,4 +43,9 @@ public class StudentController {
     public List<StudentDto> getAllStudents(@RequestParam(required = false) StudentDto.Gender gender) {
         return studentService.getAllStudents(gender);
     }
+
+    @GetMapping("/{id}")
+    public StudentDto getStudent(@NonNull @PathVariable Integer id) {
+        return studentService.getStudent(id);
+    }
 }

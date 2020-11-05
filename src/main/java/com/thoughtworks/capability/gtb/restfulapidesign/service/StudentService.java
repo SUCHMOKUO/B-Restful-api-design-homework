@@ -1,6 +1,7 @@
 package com.thoughtworks.capability.gtb.restfulapidesign.service;
 
 import com.thoughtworks.capability.gtb.restfulapidesign.dto.StudentDto;
+import com.thoughtworks.capability.gtb.restfulapidesign.exception.StudentNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,5 +38,13 @@ public class StudentService {
         }
 
         return new ArrayList<>(students.values());
+    }
+
+    public StudentDto getStudent(Integer id) {
+        if (!students.containsKey(id)) {
+            throw new StudentNotFoundException();
+        }
+
+        return students.get(id);
     }
 }
