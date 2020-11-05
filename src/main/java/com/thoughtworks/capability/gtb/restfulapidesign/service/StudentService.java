@@ -40,11 +40,33 @@ public class StudentService {
         return new ArrayList<>(students.values());
     }
 
-    public StudentDto getStudent(Integer id) {
+    private synchronized StudentDto checkAndGetStudent(Integer id) {
         if (!students.containsKey(id)) {
             throw new StudentNotFoundException();
         }
 
         return students.get(id);
+    }
+
+    public StudentDto getStudent(Integer id) {
+        return checkAndGetStudent(id);
+    }
+
+    public StudentDto updateStudent(Integer id, StudentDto studentDto) {
+        StudentDto studentToUpdate = checkAndGetStudent(id);
+
+        if (Objects.nonNull(studentDto.getName())) {
+            studentToUpdate.setName(studentDto.getName());
+        }
+
+        if (Objects.nonNull(studentDto.getGender())) {
+            studentToUpdate.setGender(studentDto.getGender());
+        }
+
+        if (Objects.nonNull(studentDto.getNote())) {
+            studentToUpdate.setNote(studentDto.getNote());
+        }
+
+        return studentToUpdate;
     }
 }
