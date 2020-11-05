@@ -19,4 +19,8 @@ public class StudentService {
         students.put(id, studentDto);
         return studentDto;
     }
+
+    public void deleteStudent(Integer id) {
+        students.remove(id);
+    }
 }
