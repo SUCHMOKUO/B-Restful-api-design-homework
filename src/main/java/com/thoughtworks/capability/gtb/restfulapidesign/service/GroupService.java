@@ -57,7 +57,7 @@ public class GroupService {
         return studentLists;
     }
 
-    public List<Group> getAllGroups() {
+    public List<Group> regroupAndGetAll() {
         List<Student> students = studentService.getAllStudents(null);
         int totalStudent = students.size();
         int restStudent = totalStudent % 6;
@@ -78,8 +78,11 @@ public class GroupService {
         }
 
         return groups.stream()
-                .map(Group::copy)
                 .peek((group) -> group.setStudents(studentLists.get(group.getId() - 1)))
                 .collect(Collectors.toList());
+    }
+
+    public List<Group> getAllGroups() {
+        return groups;
     }
 }

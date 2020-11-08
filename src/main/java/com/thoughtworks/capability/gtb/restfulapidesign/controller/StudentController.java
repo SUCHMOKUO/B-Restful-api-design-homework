@@ -19,7 +19,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping(path = "/students")
+@RequestMapping(path = "/v1/students")
 public class StudentController {
 
     private final StudentService studentService;
